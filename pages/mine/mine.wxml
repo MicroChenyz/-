@@ -1,0 +1,51 @@
+<view style="display: flex; flex-direction: column; height: 100%; height: 100%;">
+    <view style="height: 160rpx;" class="item-avatar-lg" style="align-items: flex-start;">
+        <open-data style="width: 120rpx;height: 120rpx;border-radius: 50%; overflow: hidden;margin: 20rpx;" type="userAvatarUrl"></open-data>
+        <view style="height: 100%; margin: 20rpx;flex:1;" class="text_box">
+            <view class="flex">
+                <text style="font-size: 45rpx;">{{userInfo.userName}}</text>
+            </view>
+            <view wx:if="{{userInfo.isAdmin}} " style="margin-top: 15rpx;" class="flex">
+                <image style="height: 50rpx;width: 50rpx;" src="../../image/admin_icon.png"></image>
+            </view>
+        </view>
+        <view style="width: 150rpx;height: 100%;background-color: rgb(255, 255, 255);" bindtap="toBackdoor"></view>
+    </view>
+    <view wx:if="{{backdoor}}" style="flex: 1; background-color: rgb(255, 255, 255);">
+        <scroll-view scroll-y="true" style="width: 100%; padding-top: 20rpx; padding-bottom: 20rpx;">
+            <form bindsubmit="formSubmit" bindreset="formReset">
+                <view class="section section_info" style="height: 300rpx;">
+                    <view class="section_title">Basic Info</view>
+                    <input class="info_input info_single" value="{{movie_info.movie_name}}" bindinput="inputMovieName" confirm-type="done"  name="input" placeholder="name" />
+                    <textarea class="info_input info_max" value="{{movie_info.movie_intro}}" bindinput="inputMovieIntro" confirm-type="done" name="input" placeholder="intro" />
+                    <textarea class="info_input info_max" value="{{movie_info.movie_actors}}" bindinput="inputMovieActors" confirm-type="done" name="input" placeholder="actors" />
+                </view>
+                <view class="section section_mormal">
+                    <view class="section_title">Type Selector</view>
+                    <radio-group class="radio_group" name="radio-group" value="{{movie_info.movie_type}}" bindchange="selectMovieType">
+                        <label><radio value="action"/>动作片</label>
+                        <label><radio value="fantasy"/>奇幻片</label>
+                        <label><radio value="comedies"/>喜剧片</label>
+                        <label><radio value="horror"/>恐怖片</label>
+                        <label><radio value="romance"/>爱情片</label>
+                        <label><radio value="documentaries"/>纪录片</label>
+                    </radio-group>
+                </view>
+                <view class="section section_mormal">
+                    <view class="section_title">日期选择器</view>
+                    <picker class="date_picker" mode="date" value="{{movie_info.movie_date}}" start="2015-09-01" end="2021-12-01" bindchange="selectMovieDate">
+                        <view style="padding-left: 20rpx;">当前选择: </view>
+                        <view class="date_display">
+                            {{movie_info.movie_date}}
+                        </view>
+                    </picker>
+                </view>
+                <view class="btn-area">
+                    <button form-type="reset" style="background-color: rgb(228, 255, 222);">Reset</button>
+                    <button form-type="submit" style="background-color: rgb(255, 255, 255);">Submit</button>
+                </view>
+            </form>
+        </scroll-view>
+    </view>
+
+</view>

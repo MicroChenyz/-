@@ -1,0 +1,77 @@
+.section{
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    background-color: white;
+    border-style: solid;
+    border-color: rgb(228, 255, 222);
+    border-top-width: 10px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-radius: 5rpx;
+    background-color: rgb(255, 255, 255);
+    padding: 20rpx;
+    display: flex;
+    flex-direction: column;
+}
+.section_info{
+    height: 350rpx;
+}
+.section_mormal{
+    height: 250rpx;
+}
+.section_title {
+    height: 60rpx;
+    font: 1em sans-serif;
+    text-align: center;
+}
+.info_input{
+    width: 500rpx;
+    font: 1em sans-serif;
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.info_single{
+    flex:1;
+}
+.info_max{
+    flex:3;
+}
+.radio_group{
+    display: flex; 
+    justify-content:space-between; 
+    flex-wrap:wrap; 
+    padding: 20rpx;
+}
+
+.radio_group label{
+    margin: 10rpx;
+}
+
+.date_picker {
+    flex: 1;
+}
+.date_display {
+    height: 140rpx;
+    font: 1em sans-serif;
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.btn-area{
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    border-style: solid;
+    border-color: rgb(228, 255, 222);
+    border-top-width: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+}
+.btn-area button{
+    flex:1
+}

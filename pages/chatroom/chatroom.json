@@ -1,0 +1,7 @@
+{
+    "enablePullDownRefresh":true,    
+    "navigationBarTitleText": "聊天室",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F3F3FA",
+    "navigationBarTextStyle":"black"
+}

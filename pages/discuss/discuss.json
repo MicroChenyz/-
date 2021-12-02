@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh":true,    
+  "navigationBarTitleText": "留言本",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#eda9c8",
+  "navigationBarTextStyle":"black"
+}

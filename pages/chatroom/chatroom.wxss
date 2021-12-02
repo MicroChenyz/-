@@ -1,0 +1,61 @@
+.right-Avatar{
+    float:right;
+    width: 85rpx;
+    height: 85rpx;
+}
+.right-Triangle{
+    float:right;
+    margin-top: 35rpx;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 12px solid rgb(199, 221, 154);
+    border-bottom: 8px solid transparent;
+}
+.right-message{
+    float: right;
+    margin-top: 10rpx;
+    line-height:55rpx;
+    background: rgb(199, 221, 154);
+    border-radius: 10rpx;
+    font-size: 12px;
+    max-width: 65%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.left-Avatar{
+    float:left;
+    width: 85rpx;
+    height: 85rpx;
+}
+.left-Triangle{
+    float:left;
+    margin-top: 35rpx;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-right: 12px solid rgb(184, 212, 218);
+    border-bottom: 8px solid transparent;
+}
+.left-message{
+    float: left;
+    margin-top: 10rpx;
+    line-height: 55rpx;
+    background: rgb(184, 212, 218);
+    border-radius: 10rpx;
+    font-size: 12px;
+    max-width: 65%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.icon{
+    vertical-align: middle;
+    margin-top: 4px;
+    width:32px;
+    height:32px;
+}
+
+
+

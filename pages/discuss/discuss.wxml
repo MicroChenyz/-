@@ -1,0 +1,57 @@
+<view wx:if="{{isLoading}}" class="htmleaf-container" style="background:white;height:100%;">
+    <view class="spinner-box" style="margin:0 auto;">
+        <view class="pulse-container" style="margin-top:500rpx;">
+            <view class="pulse-bubble pulse-bubble-1"></view>
+            <view class="pulse-bubble pulse-bubble-2"></view>
+            <view class="pulse-bubble pulse-bubble-3"></view>
+        </view>
+    </view>
+</view>
+
+<view style="height: 100%; " bindtap="cancelComment" >
+    <scroll-view scroll-y="true" style="background-color: rgb(238, 203, 228); height: 100%; width: 100%;">
+      <block wx:for="{{comments}}" wx:key="item-{{index}} " wx:for-index="commentIndex">
+        <view class="box" bindtap="turnover" data-index="{{commentIndex}}">
+          <view class="{{item.checked ? 'box_comment': 'box_comment_without_reply'}} {{item.anim}}" style="opacity: {{item.opacity}};">
+            <view class="main_top">
+              <view class="comment_detail">
+                <view class="user_name">
+                  {{item.username}}
+                </view>
+                <view class="comment_time">
+                  {{item.time}}
+                </view>
+              </view>
+            </view>
+            <view class="main_middle">
+              <view class="main_middle_intro">
+                <text>{{item.content}}</text>
+              </view>
+            </view>
+            <view wx:if="{{item.checked}}" class="main_bottom" style="border-top-color: #dfb4d2; border-top-width: 1rpx; border-top-style: solid;">
+                <text style="color:#000000;font-size:35rpx;align-items: flex-end;margin-right: 15rpx;">Click to </text>
+                <image src="../../image/reply_reminder.png" style="height: 45rpx; width: 45rpx; "></image>
+            </view>
+            <view wx:else class="main_bottom" style="background-color: rgb(218, 233, 218); border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+              <view style="height: 100%; width: 100%; text-align: center; ">Please Wait for Reply</view>
+            </view>
+          </view>    
+          <view class="box_reply">
+            <view class="reply_content">
+              <text>{{item.reply}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+</view>
+
+<view wx:if="{{!toRemark}}" class="comment_btn" bindtap="comment_open" catchtouchmove="buttonMove" bindtouchstart="buttonStart" bindtouchend="buttonEnd" style="top:{{buttonTop}}px;left:{{buttonLeft}}px;">
+    <image class="comment_logo" src="../../image/remark.png"></image>
+</view>
+<view wx:if="{{toRemark}}" class="wa-row" style="height:200px; bottom: 0%; padding-bottom: 3%;padding-top: 3%;position: fixed;background-color: cornsilk;">
+    <view class="padding_half flex" style="height:150px; width: 70%;line-height:30px;border-radius:10px;background-color: rgb(241, 231, 217);margin: 20rpx;flex-grow: 1;">
+        <textarea style="margin: 2%;height: 100%; flex-grow: 1;text-align: left;font-size: 16px;" value="{{comment_text}}" bindinput="inputComment"/>
+    </view>
+    <view style="height: 160px ;width: 30%;background-color: #e4ebc4;border-radius: 7px;align-self: center;vertical-align: middle;margin-right: 10rpx;" bindtap = "sendComment"/>
+</view>
