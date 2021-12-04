@@ -10,7 +10,7 @@ class database:
         self.db = pymysql.connect("localhost", "root", "", "movie_robot", charset='utf8')
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
-        # 连接redis 分别管理不同的数据库表
+        # 连接redis 分别管理不同的数据库表 处理不同的数据表
         self.re_user = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
         self.re_movie = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
         self.re_comment = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
