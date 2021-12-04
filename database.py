@@ -7,7 +7,7 @@ import redis
 class database:
     def __init__(self):
         # 连接数据库
-        self.db = pymysql.connect("localhost", "root", "19991210", "movie_robot", charset='utf8')
+        self.db = pymysql.connect("localhost", "root", "", "movie_robot", charset='utf8')
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
         # 连接redis 分别管理不同的数据库表
