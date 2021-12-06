@@ -64,12 +64,13 @@ def reply_msg():
 @app.route('/add_movie', methods=['GET', 'POST'])
 def add_movie():
     data = json.loads(request.get_data().decode('utf-8'))
-    username = data['username']
+    data = data['movie_info']
+    username = data['movie_contributor']
     name = data['movie_name']
     intro = data['movie_intro']
     actors = data['movie_actors']
     m_type = data['movie_type']
-    on_time = data['on_time']
+    on_time = data['movie_date']
     flag = db.insert_movie_data(username, intro, on_time, actors, m_type, name)
     return json.dumps({"flag": flag})
 
