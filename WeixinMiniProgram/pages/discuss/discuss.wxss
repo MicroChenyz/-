@@ -1,0 +1,286 @@
+/**可拖动悬浮按钮样式表**/
+.comment_btn{
+    position: fixed;
+    height: 100rpx;
+    width: 100rpx;
+    background-color: rgba(255, 255, 255, 0.755);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    box-shadow: 1px 0px 1px 1px #ede7e7;
+  }
+  .comment_logo{
+    position:absolute;
+    height:50%;
+    width:50%;
+    left:23%;
+    top:27%
+  }
+
+  .main {
+    margin-top: 10rpx;
+    background-color: rgb(240, 240, 240);
+  }
+
+  .box {
+    margin: 30rpx;
+    height: 350rpx;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    transform-style:preserve-3d;
+  }
+
+  .box_comment {
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ffecf6;
+  }
+
+  .box_comment_without_reply {
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    /* border-width: 5px;
+    border-style: solid; */
+  }
+
+  .fade {
+    animation:fade 1s linear 1 both;
+  }
+  @keyframes fade{from{opacity:1} to{opacity:0}}
+
+  .unfade {
+    animation:unfade 0.5s linear 1 both;
+  }
+  @keyframes unfade{from{opacity:0} to{opacity:1}}
+
+  .box_back {
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .statue_icon image {
+    width: 100rpx;
+    border-radius: 50%;
+  }
+
+  .user_flag view {
+    font-weight: 100;
+    color: white;
+    font-size: 20rpx;
+    margin-right: 10rpx;
+    padding: 5rpx;
+    border-radius: 4rpx;
+  }
+
+  .flag_sex {
+    background-color: chocolate;
+  }
+
+  .flag_category {
+    background-color: teal;
+  }
+
+  .flag_major {
+    background-color: burlywood;
+  }
+
+  .flag_age {
+    background-color: cornflowerblue;
+  }
+
+  .user_name {
+    margin-left: 10rpx;
+    font-weight: 1200;
+    font-size: x-large;
+    float: left;
+    color: cadetblue;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .comment_time {
+    margin-right: 10rpx;
+    float: right;
+    font-weight: 400;
+    color: rgb(139, 139, 139);
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .user_comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10rpx;
+  }
+
+  .user_comment image {
+    width: 100rpx;
+    border-radius: 50%;
+  }
+
+  .comment_detail {
+    height: 100%;
+    margin-left: 10rpx;
+  }
+
+  .main_top {
+    height: 50rpx;
+    padding: 20rpx;
+  }
+  .main_middle {
+    padding-left: 20rpx;
+    padding-right: 20rpx;
+    height: 180rpx;
+  }
+
+  .main_middle_intro {
+    word-wrap: break-word;
+    font-size: 40rpx;
+    overflow: hidden;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    letter-spacing: 5rpx;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180rpx;
+    width: 100%;
+    flex-direction:column;
+  }
+
+  .reply_content {
+    word-wrap: break-word;
+    font-size: 40rpx;
+    overflow: hidden;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    letter-spacing: 5rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 350rpx;
+    width: 100%;
+    flex-direction:column;
+  }
+  .main_bottom {
+    padding: 20rpx;
+    height: 50rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+  }
+
+  .main_bottom_operation {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+  .main_bottom_more{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  .goTop {
+    height: 80rpx;
+    width: 80rpx;
+    position: fixed;
+    bottom: 50rpx;
+    right: 30rpx;
+  }
+
+  .reply_input{
+    font: 1em sans-serif;
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 40rpx;
+    overflow: hidden;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    letter-spacing: 5rpx;
+    height: 200rpx;
+    width: 100%;
+    background-color: white;
+}
+
+.pupContent {
+  width: 100%;
+  background: rgb(250, 239, 239);
+  position: absolute;
+  bottom: 0;
+  box-shadow: 0 0 10rpx #333;
+  height: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 弹出或关闭动画来动态设置内容高度 */
+
+@keyframes slideContentUp {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 400rpx;
+  }
+}
+
+@keyframes slideContentDown {
+  from {
+    height: 400rpx;
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+/* 显示或关闭内容时动画 */
+
+.open {
+  animation: slideContentUp 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+
+.close {
+  animation: slideContentDown 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+
+.reply_box {
+  margin: 50rpx;
+}
+
+.tip_for_users {
+  background-color: rgb(218, 233, 218); 
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.tip_for_admins {
+  background-color: rgb(230, 218, 217); 
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.tip_text{
+  height: 100%; width: 100%; text-align: center;
+}

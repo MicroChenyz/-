@@ -1,0 +1,166 @@
+/**app.wxss**/
+@import "wa-ui.wxss";
+page{
+  height: 100%
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+.padding{
+  padding:20rpx;
+}
+.padding_half{
+  padding: 10rpx;
+}
+.graySpace{
+  padding-left: 40rpx;
+  background: #eee;
+  font-size: 12px;
+  min-height: 30rpx;
+}
+.item-avatar .text_box,.item-avatar-lg .text_box{
+  display: flex;
+  flex-direction: column;
+}
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+.flex-column{
+  display: flex;
+  flex-direction: column
+}
+.flex-center{
+  display: flex;
+  justify-content: center;
+}
+.flex{
+  display: flex;
+}
+.title{
+  font-family: "微软雅黑";
+  font-size: 32rpx;
+}
+.message{
+  font-size: 30rpx;
+}
+
+.item-avatar-lg,.item-avatar-md,.item-avatar-sm,.item-avatar-xs{
+  display: flex;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #eee;
+  cursor: pointer;
+  position:relative;
+}
+.item-avatar-lg image{
+  float: left;
+  width: 125rpx;
+  height: 125rpx;
+  box-sizing: border-box
+}
+.item-avatar-md image{
+  float: left;
+  width: 85rpx;
+  height: 85rpx;
+  box-sizing: border-box
+}
+.item-avatar-sm image{
+  float: left;
+  width: 65rpx;
+  height: 65rpx;
+  box-sizing: border-box
+}
+.item-avatar-xs image{
+  float: left;
+  width: 45rpx;
+  height: 45rpx;
+  box-sizing: border-box
+}
+
+.item-avatar-md .marks{
+  position: absolute;
+  top: 0px;
+  left: 90rpx;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  background: red;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  font-size: 28rpx;
+}
+.item-avatar-lg .item-text,.item-avatar-md .item-text,.item-avatar-sm .item-text,.item-avatar-xs .item-text{
+  padding-left: 10px;
+}
+.item-avatar-md .item-time{
+  position: absolute;
+  right: 20rpx;
+}
+.clearfix{
+  overflow: hidden;
+}
+.icon::before{
+  font-size: 70rpx
+}
+.floatR{
+  float: right;
+}
+
+/* GRID STYLING */
+
+.htmleaf-container {
+  box-sizing: border-box;
+}
+
+.htmleaf-container {
+  min-height: 100vh;
+  background-color: #37474f;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.spinner-box {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+/* PULSE BUBBLES */
+
+.pulse-container {
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pulse-bubble {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #3ff9dc;
+}
+
+.pulse-bubble-1 {
+  animation: pulse 0.4s ease 0s infinite alternate;
+}
+
+.pulse-bubble-2 {
+  animation: pulse 0.4s ease 0.2s infinite alternate;
+}
+
+.pulse-bubble-3 {
+  animation: pulse 0.4s ease 0.4s infinite alternate;
+}

@@ -1,0 +1,29 @@
+<view style="background-color: burlywood;height: 100%;">
+    <scroll-view scroll-y="true" scroll-into-view="{{toView}}" bindtap="tapscroll" style="background-color: burlywood;padding-bottom: 20%;height: 1200rpx;">
+        <view wx:for="{{messages}}" wx:for-item="i" id='msg-{{index}}'>
+            <view class="padding clearfix" wx:if="{{i.me}}">
+                <open-data type="userAvatarUrl" class="right-Avatar padding_half"></open-data>
+                <view class="right-Triangle"></view>
+                <view class="right-message padding_half">
+                    <text style="padding:0;margin:0;width:auto;">{{i.text}}</text>
+                </view>
+            </view>
+            <view class="padding clearfix " wx:if="{{!i.me}}">
+                <image class="left-Avatar padding_half" src="../../image/robot.png"></image>
+                <view class="left-Triangle"></view>
+                <view class="left-message padding_half">
+                    <text style="padding:0;margin:0;width:auto;">{{i.text}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="weui-icon_success"></view>
+    </scroll-view>
+</view>
+<view class="wa-row" style="height:60px; bottom: 0%; padding-bottom: 3%;padding-top: 3%;position: fixed;background-color: cornsilk;">
+    <view class="padding_half flex" style="height:30px; line-height:30px;border-radius:10px;background-color: rgb(241, 231, 217);margin-left: 20rpx;flex-grow: 1;">
+        <image style="width: 25px; height: 25px; margin: 10rpx; align-self: center;" src="../../image/search.png" ></image>
+        <input style="align-self: center;float: left;flex-grow: 1;"placeholder="请输入消息" value="{{msg}}" bindinput="inputMessage" confirm-type= "send" bindconfirm = "sendMessage"/>
+        <image style="width: 20px; height: 20px; margin: 10rpx; align-self: center;" src="../../image/cancel.png" bindtap="cancelMessage"></image>
+    </view>
+    <image style="width: 35px; height: 35px; margin: 10rpx; align-self: center;" src="../../image/submit.png" bindtap="sendMessage"></image>
+</view>
