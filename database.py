@@ -3,24 +3,25 @@ import redis
 
 
 # 打开数据库连接
-
-class database:
+class Database:
     def __init__(self):
+        # self.cursor.execute("create database MOVIE_SYS;")
+        # self.cursor.execute("use database MOVIE_SYS;")
         # 连接数据库
-        self.db = pymysql.connect("localhost", "root", "", "movie_robot", charset='utf8')
+        self.db = pymysql.connect(host="localhost", user="root", password="19991210", database="movie_robot", charset="utf8")
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
-        # 连接redis 分别管理不同的数据库表 处理不同的数据表
-        self.re_user = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
-        self.re_movie = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
-        self.re_comment = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
-        self.re_record = redis.Redis(host='127.0.0.1', port=6379, db=0, password="")
+        # 连接redis 分别管理不同的数据库表
+        self.re_user = redis.Redis(host='127.0.0.1', port=6379, db=0, password="", charset='UTF-8',
+                                   encoding='UTF-8', decode_responses=True)
+        self.re_movie = redis.Redis(host='127.0.0.1', port=6379, db=0, password="", charset='UTF-8',
+                                    encoding='UTF-8', decode_responses=True)
+        self.re_comment = redis.Redis(host='127.0.0.1', port=6379, db=0, password="", charset='UTF-8',
+                                      encoding='UTF-8', decode_responses=True)
+        self.re_record = redis.Redis(host='127.0.0.1', port=6379, db=0, password="", charset='UTF-8',
+                                     encoding='UTF-8', decode_responses=True)
         self.comment_cnt = 0
         self.record_cnt = 0
-
-    def create_database(self):
-        self.cursor.execute("create database MOVIE_SYS;")
-        self.cursor.execute("use database MOVIE_SYS;")
 
     def close_database(self):
         self.db.close()
@@ -34,8 +35,9 @@ class database:
             self.db.rollback()
             print("failed", e)
 
+    # 用户表的格式尚不确定
     def insert_user_data(self, username, admin_flag):
-        insert_sql = "insert into user (USERNAME,ADMIN_Or_not) values('%s',%s)" % (username, admin_flag)
+        insert_sql = "insert into user (USERNAME,ADMIN_Or_not,Openid) values('%s',%s)" % (username, admin_flag)
         try:
             self.cursor.execute(insert_sql)
             self.db.commit()
@@ -59,6 +61,7 @@ class database:
             self.re_movie.hset(movie_name, "on_time", on_time)
             self.re_movie.hset(movie_name, "movie_type", movie_type)
             self.re_movie.hset(movie_name, "main_actors", main_actors)
+            print(self.re_movie.hget(movie_name, "username"))
             self.db.commit()
             return True
         except Exception as e:
@@ -145,6 +148,7 @@ class database:
         res_type = self.re_movie.hget(movie_name, "movie_type")
         res_actors = self.re_movie.hget(movie_name, "main_actors")
         if res_intro:
+            print("from redis")
             return res_intro, res_time, res_type, res_actors
         else:
             sel_sql = "select * from movie where Movie_name='%s'" % movie_name
@@ -174,48 +178,7 @@ class database:
             list_record = []
             for each_re in record:
                 list_record.append((each_re[2], each_re[3], each_re[4]))
-            return  list_record
+            return list_record
         except Exception as e:
             self.db.rollback()
             print("failed", e)
-
-# create user table
-# insert into user (USERNAME,ADMIN_Or_not) values("name",2)
-# sql_user_create = """CREATE TABLE USER (
-#          USERID INTEGER NOT NULL PRIMARY KEY auto_increment,
-#          USERNAME VARCHAR(50),
-#          ADMIN_Or_not  TINYINT
-#           )"""
-
-# create movie table
-# insert into movie (USERNAME,movie_intro,on_time,main_actors,movie_type,movie_name)
-# values("name","good","2021-02-12","汤奇瑞","comedy","happy");
-# sql_movie_create = """CREATE TABLE MOVIE (
-#          Movie_id INTEGER NOT NULL PRIMARY KEY auto_increment,
-#          USERNAME VARCHAR(50),
-#          Movie_intro TEXT,
-#          On_time  Timestamp DEFAULT CURRENT_TIMESTAMP,
-#          Main_actors  TEXT,
-#          Movie_type   VARCHAR(50),
-#          Movie_name   VARCHAR(50)
-#           )"""
-
-# create comment table
-# insert into comment(USERNAME,Content,time,reply) values("tqr","great","2021-02-03","good comment")
-# sql_comment_table = """CREATE TABLE Comment (
-#          Comment_id INTEGER NOT NULL PRIMARY KEY auto_increment,
-#          USERNAME VARCHAR(50),
-#          Content TEXT,
-#          time  Timestamp DEFAULT CURRENT_TIMESTAMP,
-#          reply TEXT
-#           )"""
-
-# create records table
-# insert into records(USERNAME,Robot_or_me,content,time) values ("name",1,"hello","2021-02-01")
-# sql_record_table = """CREATE TABLE Records (
-#          record_id INTEGER NOT NULL PRIMARY KEY auto_increment,
-#          USERNAME VARCHAR(50),
-#          Robot_or_Me TINYINT,
-#          Content TEXT,
-#          time  Timestamp DEFAULT CURRENT_TIMESTAMP
-#           )"""
