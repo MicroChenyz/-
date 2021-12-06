@@ -100,7 +100,7 @@ function loadComments(obj){
     //     })
 
   obj.setData({
-    comments:[{"comment_id":1, "username":"wanfu", "content":"nice", "time":"2020/02/02 11:11:11", "checked":true, "view_count":10, "agree_count":15, "reply":"nmd", "reply_time":"2020/02/02 11:12:10", "z_index_front":2, "anim":null}],
+    comments:[{"username":"wanfu", "content":"nice", "time":"2020/02/02 11:11:11", "checked":true, "reply":"nmd", "reply_time":"2020/02/02 11:12:10", "z_index_front":2, "anim":null}],
     isLoading:false
   })
 }
@@ -151,7 +151,6 @@ function addMovie(movie_info){
     //         }
     //     })
 }
-
 
 function formatNumber(n) {
   n = n.toString()

@@ -1,0 +1,46 @@
+{
+    "pages": [
+        "pages/load/load",
+        "pages/chatroom/chatroom",
+        "pages/mine/mine",
+        "pages/discuss/discuss"
+    ],
+    "window": {
+        "navigationBarBackgroundColor": "#000",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "",
+        "backgroundColor": "#eee",
+        "backgroundTextStyle": "light"
+    },
+    "tabBar": {
+        "backgroundColor": "#F3F3FA",
+        "color": "#bfbfbf",
+        "selectedColor": "#33a8e6",
+        "list": [
+            {
+                "pagePath": "pages/chatroom/chatroom",
+                "iconPath": "image/chat.png",
+                "selectedIconPath": "image/chat_selected.png",
+                "text": "聊天室"
+            },
+            {
+                "pagePath": "pages/discuss/discuss",
+                "iconPath": "image/discuss.png",
+                "selectedIconPath": "image/discuss_selected.png",
+                "text": "留言本"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "iconPath": "image/mine.png",
+                "selectedIconPath": "image/mine_selected.png",
+                "text": "我"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000
+    },
+    "debug": true,
+    "sitemapLocation": "sitemap.json"
+}

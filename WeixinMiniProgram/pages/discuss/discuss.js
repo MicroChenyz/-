@@ -213,11 +213,14 @@ Page({
     },
     sendReply(){
       var reply_index = currentTargetIndex
+      var time = util.formatTime(new Date());
       console.log("reply_index:" + reply_index)
       var reply_to_comment = `comments[${reply_index}].reply`
       var checked_to_comment = `comments[${reply_index}].checked`
+      var reply_time_to_comment = `comments[${reply_index}].reply_time`
       console.log(this.data.comments[reply_index].reply)
-      this.setData({[checked_to_comment]: true, [reply_to_comment]:this.data.reply_text});
+      this.setData({[checked_to_comment]: true, [reply_to_comment]:this.data.reply_text, [reply_time_to_comment]:time});
+      util.sendReply()
       this.cancelReply()
     },
     cancelReply(){
