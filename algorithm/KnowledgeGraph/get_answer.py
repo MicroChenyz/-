@@ -3,7 +3,7 @@ from py2neo import *
 
 class Get_answer():
     def __init__(self):
-        self.graph = Graph("http://localhost/:7474", username="neo4j", password="123")
+        self.graph = Graph("http://49.233.54.21:7474", username="neo4j", password="123")
 
     def get_data(self, index, params):
         query = ''
@@ -43,6 +43,8 @@ class Get_answer():
             query = "MATCH(n)-[:actedin]-(m) WHERE n.name ='{}' RETURN count(*);".format(params[0])  # 演员演过电影数量
         elif index == 13:
             query = "MATCH(n:Person) WHERE n.name='{}' RETURN n.birth;".format(params[0])  # 演员出生日期
+        else:
+            return ""
 
         result = self.graph.run(query)
         return result

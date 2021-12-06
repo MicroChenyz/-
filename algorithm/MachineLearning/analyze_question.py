@@ -81,11 +81,11 @@ class AnalysisQuestion():
         return params
 
     def analysis_question(self, question):
-        print('原始句子：{}'.format(question))
+        # print('原始句子：{}'.format(question))
         abstr = self.abstract_question(question)
-        print('句子抽象化结果：{}'.format(abstr))
+        # print('句子抽象化结果：{}'.format(abstr))
         index, strpatt = self.query_classify(abstr)
-        print('句子对应的索引{}\t模板：{}'.format(index, strpatt))
+        # print('句子对应的索引{}\t模板：{}'.format(index, strpatt))
         finalpatt = self.query_extention(strpatt)
         return index, finalpatt
 

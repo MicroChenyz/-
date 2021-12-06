@@ -7,6 +7,8 @@ def get_answer(question):
     ga = Get_answer()
 
     index, params = aq.analysis_question(question)
+    if len(params) == 0:
+        return ""
     answers = ga.get_data(index, params)
 
     result = ""
