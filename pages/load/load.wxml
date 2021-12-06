@@ -2,12 +2,9 @@
     跳过{{count}}s
 </view>
 <view wx:if="{{show_login_button}}">
-    <view wx:if="{{canIUse}}" >
-        <button class='login_botton' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+        <button class='login_botton' type='primary' lang="zh_CN" catchtap="bindGetUserInfo">
             授权登录
         </button>
-    </view>
-    <view wx:else>请升级微信版本</view>
 </view>
 <!-- <view class="login_window" wx:if="{{shouldLogin}}" >
     <view wx:if="{{canIUse}}" style="border-radius: 5px;background-color: rgba(231, 220, 220, 0.952);padding: 50rpx;" >

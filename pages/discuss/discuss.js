@@ -3,6 +3,8 @@ var util = require('../../utils/util.js')
 var app = getApp()
 var startPoint;
 var isPageFirstShow = true;
+var currentTargetIndex;
+var z_index = {};
 Page({
 
     /**
@@ -20,17 +22,22 @@ Page({
         comments:[],
 
         isLoading: true,
-        comment_text: ""
+        comment_text: "",
+        isAdmin:false,
+
+        toReply: false, //是否显示弹窗内容
+        option: false, //显示弹窗或关闭弹窗的操作动画
+        reply_text:""
       },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad:function(){
-      console.log("ssssss")
         //定义角标数字
         this.setData({
-          corner_data:3
+          corner_data:3,
+          isAdmin:app.globalData.userInfo.isAdmin,
         })
         // 获取控件适配参数
         var that =this;
@@ -120,15 +127,16 @@ Page({
       });
       return
     }
+  
+    this.cancelComment();
     var time = util.formatTime(new Date());
-
     // 将留言发送给服务端
     var origin_comments = this.data.comments
     var new_comment = {"userid":app.globalData.userInfo.userId, "username":app.globalData.userInfo.userName, "content":comment_text, "time":time, "checked":false, "reply":null}
     util.sendComment(new_comment);
 
     // 将留言添加到页面
-    var new_comment_item = {"username":app.globalData.userInfo.userName, "content":comment_text, "time":time, "checked":false, "reply":null, "opacity":1, "anim":null}
+    var new_comment_item = {"username":app.globalData.userInfo.userName, "content":comment_text, "time":time, "checked":false, "reply":null, "reply_time":null, "z_index_front":2, "anim":null}
     this.setData({
       comments:origin_comments.concat([new_comment_item]),
       comment_text:""
@@ -149,31 +157,31 @@ Page({
 
     turnover: function (e) {
       var comment_index = e.currentTarget.dataset.index
+      currentTargetIndex = comment_index
       var checked = this.data.comments[comment_index].checked
+      var isAdmin = this.data.isAdmin
       if(!checked){
-        wx.showToast({
-          title: '请等待管理员回复',
-          icon: 'none',
-          duration: 1000,
-        });
-        return
-      }
-      var comment_opacity = this.data.comments[comment_index].opacity
+        if(isAdmin){
+          this.popupReplyWindow();
+          return;
+        }else{
+          wx.showToast({
+            title: '请等待管理员回复',
+            icon: 'none',
+            duration: 1000,
+          });
+          return
+          }
+        }
+      
+      var anim_type = this.data.comments[comment_index].anim
       var anim = `comments[${comment_index}].anim`
-      var opacity = `comments[${comment_index}].opacity`
-      if(comment_opacity){
+      if(anim_type != "fade"){
         this.setData({[anim]: "fade"});
-        var that = this
-        setTimeout(function() {
-          that.setData({[anim]: null, [opacity]:0 })
-         }, 1000);
       }
       else{
-        this.setData({[anim]: "unfade"});
-        var that = this
-        setTimeout(function() {
-          that.setData({[anim]: null, [opacity]:1 })
-         }, 500);
+        var z_index_front = `comments[${comment_index}].z_index_front`
+        this.setData({[anim]: "unfade", [z_index_front]:2});
       }
     },
 
@@ -194,5 +202,48 @@ Page({
           }
       }
       return true;
-    }
+    },
+    popupReplyWindow(){
+      if (!this.data.toReply && !this.data.option) {
+        this.setData({
+          toReply: true,
+          option: true,
+        })
+      }
+    },
+    sendReply(){
+      var reply_index = currentTargetIndex
+      console.log("reply_index:" + reply_index)
+      var reply_to_comment = `comments[${reply_index}].reply`
+      var checked_to_comment = `comments[${reply_index}].checked`
+      console.log(this.data.comments[reply_index].reply)
+      this.setData({[checked_to_comment]: true, [reply_to_comment]:this.data.reply_text});
+      this.cancelReply()
+    },
+    cancelReply(){
+      if (this.data.option && this.data.toReply) {
+        this.setData({
+          option: false,
+        })
+        // 关闭显示弹窗动画的内容，不设置的话会出现：点击任何地方都会出现弹窗，就不是指定位置点击出现弹窗了
+        setTimeout(() => {
+          this.setData({
+            toReply: false,
+          })
+        }, 500)
+      } 
+    },
+    inputReply(e){
+      this.setData({
+        reply_text:e.detail.value
+    })
+    },
+    turnoverEnd(e){      
+      var comment_index = e.currentTarget.dataset.index
+      var z_index_front = `comments[${comment_index}].z_index_front`
+      var anim_type = this.data.comments[comment_index].anim
+      if(anim_type == "fade"){
+        this.setData({[z_index_front]: 0});
+      }
+    },
 })

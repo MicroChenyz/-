@@ -18,7 +18,7 @@
     line-height:55rpx;
     background: rgb(199, 221, 154);
     border-radius: 10rpx;
-    font-size: 12px;
+    font-size: 28rpx;
     max-width: 65%;
     padding-left: 10px;
     padding-right: 10px;
@@ -44,7 +44,7 @@
     line-height: 55rpx;
     background: rgb(184, 212, 218);
     border-radius: 10rpx;
-    font-size: 12px;
+    font-size: 28rpx;
     max-width: 65%;
     padding-left: 10px;
     padding-right: 10px;

@@ -10,27 +10,26 @@ function formatTime(date) {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
-function loginUser(id){
-    //    wx.request({
-    //         url: app.globalData.ip+'/getMoments.php',
-    //         data: {'userid':id},
-    //         method: "POST",
-    //         header: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         success: function(res) {
-    //            app.globalData.userInfo = res.data
-    //         },
-    //         fail:function(err){
-    //             console.log(err);
-    //         }
-    //     })
-  app.globalData.userInfo = {
-    "userName":"万福",
-    "isAdmin":true,
-    "userId":null,
-  }
+function loginUser(res){
+  var userId = app.globalData.userId
+  wx.request({
+    url: 'http://172.20.10.6:5000/admin',
+    data: {'userid':userId},
+    method: "POST",
+    header: {
+        'Content-Type': 'application/json'
+    },
+    success: function(res) {
+      console.log(res)
+      app.globalData.userInfo.isAdmin = res.data.admin == "1"? true:false;
+      wx.setStorageSync(userId, app.globalData.userInfo);
+    },
+    fail:function(err){
+        console.log(err);
+    }
+})
 }
+
 function loadMessage(){
     // wx.request({
     //         url: app.globalData.ip+'/getMoments.php',
@@ -101,7 +100,7 @@ function loadComments(obj){
     //     })
 
   obj.setData({
-    comments:[{"comment_id":1, "username":"wanfu", "content":"nice", "time":"20200202 11:11:11", "checked":true, "view_count":10, "agree_count":15, "reply":"nmd", "opacity":1, "anim":null}],
+    comments:[{"comment_id":1, "username":"wanfu", "content":"nice", "time":"2020/02/02 11:11:11", "checked":true, "view_count":10, "agree_count":15, "reply":"nmd", "reply_time":"2020/02/02 11:12:10", "z_index_front":2, "anim":null}],
     isLoading:false
   })
 }
@@ -121,7 +120,22 @@ function sendComment(comment){
     //     })
   console.log(comment)
 }
-
+function sendReply(single_comment){
+  // wx.request({
+//         url: app.globalData.ip+'/getMoments.php',
+//         data: {'comment':comment},
+//         method: "POST",
+//         header: {
+//             'Content-Type': 'application/json'
+//         },
+//         success: function(res) {
+//         },
+//         fail:function(err){
+//             console.log(err);
+//         }
+//     })
+console.log(reply)
+}
 function addMovie(movie_info){
     //  wx.request({
     //         url: app.globalData.ip+'/getMoments.php',

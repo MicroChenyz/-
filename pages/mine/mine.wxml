@@ -5,7 +5,7 @@
             <view class="flex">
                 <text style="font-size: 45rpx;">{{userInfo.userName}}</text>
             </view>
-            <view wx:if="{{userInfo.isAdmin}} " style="margin-top: 15rpx;" class="flex">
+            <view wx:if="{{userInfo.isAdmin}}" style="margin-top: 15rpx;" class="flex">
                 <image style="height: 50rpx;width: 50rpx;" src="../../image/admin_icon.png"></image>
             </view>
         </view>

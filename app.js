@@ -7,7 +7,7 @@ App({
     wx.setStorageSync('logs', logs)
   },
   globalData:{
-    userCode:null,
+    userId:null,
     preLoadMsg:[],
     userInfo:{
       "userName":"未登录",
