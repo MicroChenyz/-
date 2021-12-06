@@ -8,7 +8,8 @@ class Database:
         # self.cursor.execute("create database MOVIE_SYS;")
         # self.cursor.execute("use database MOVIE_SYS;")
         # 连接数据库
-        self.db = pymysql.connect(host="localhost", user="root", password="19991210", database="movie_robot", charset="utf8")
+        self.db = pymysql.connect(host="localhost", user="root", password="19991210", database="movie_robot",
+                                  charset='utf8mb4')
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
         # 连接redis 分别管理不同的数据库表
@@ -68,9 +69,10 @@ class Database:
             self.db.rollback()
             print("failed", e)
 
-    def insert_comment_data(self, username, content, time, reply):
-        insert_sql = "insert into comment(USERNAME,Content,time,reply) values('%s','%s','%s','%s')" \
-                     % (username, content, time, reply)
+    def insert_comment_data(self, username, content, time, reply, checked, reply_time):
+        insert_sql = "insert into comment(USERNAME,Content,time,reply,checked,reply_time) values('%s','%s','%s','%s'," \
+                     "'%s','%s')" \
+                     % (username, content, time, reply, checked, reply_time)
         try:
             self.cursor.execute(insert_sql)
             # 以用户名和时间作为key来进行查询
@@ -78,7 +80,25 @@ class Database:
             self.re_comment.hset(str(self.comment_cnt) + '+' + username, "content", content)
             self.re_comment.hset(str(self.comment_cnt) + '+' + username, "time", time)
             self.re_comment.hset(str(self.comment_cnt) + '+' + username, "reply", reply)
+            self.re_comment.hset(str(self.comment_cnt) + '+' + username, "checked", checked)
+            self.re_comment.hset(str(self.comment_cnt) + '+' + username, "reply_time", reply_time)
             self.db.commit()
+            return True
+        except Exception as e:
+            self.db.rollback()
+            print("failed", e)
+
+    def update_comment_data(self, username, time, reply, checked, reply_time):
+        update_sql = "update comment set reply = '%s', checked='%s', reply_time = '%s' where username='%s' and " \
+                     "time='%s'" % (
+                         reply, checked, reply_time, username, time)
+        try:
+            self.cursor.execute(update_sql)
+            for i in range(self.comment_cnt):
+                if self.re_comment.hget(str(self.comment_cnt) + '+' + username, "time") == time:
+                    self.re_comment.hset(str(self.comment_cnt) + '+' + username, "reply", reply)
+                    self.re_comment.hset(str(self.comment_cnt) + '+' + username, "checked", checked)
+                    self.re_comment.hset(str(self.comment_cnt) + '+' + username, "reply_time", reply_time)
             return True
         except Exception as e:
             self.db.rollback()
@@ -118,25 +138,16 @@ class Database:
                 self.db.rollback()
                 print("failed", e)
 
-    def select_comment(self, username):
-        list_comment = []
-        for i in self.comment_cnt:
-            find = str(i) + "+" + username
-            if self.re_comment.hget(find, "content"):
-                list_comment.append((self.re_comment.get(find, "content"), self.re_comment.hget(find, "time"),
-                                     self.re_comment.hget(find, "reply")))
-        # 可能此时redis中存的不完整 最后选择返回数据更多的一类
-        sel_sql = "select * from comment where username='%s'" % username
+    def select_comment(self):
+        sel_sql = "select * from comment"
         try:
             list_comment1 = []
             self.cursor.execute(sel_sql)
             comment_info = self.cursor.fetchall()  # 返回该用户所有的评论
             for comment in comment_info:
-                list_comment1.append((comment[2], comment[3], comment[4]))
-            if len(list_comment) > len(list_comment1):
-                return list_comment
-            else:
-                return list_comment1
+                list_comment1.append({"username": comment[1], "content": comment[2], "time": str(comment[3]),
+                                      "reply": comment[4], "checked": comment[5], "reply_time": str(comment[6])})
+            return list_comment1
         except Exception as e:
             self.db.rollback()
             print("failed", e)
