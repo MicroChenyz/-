@@ -1,4 +1,5 @@
 var app = getApp()
+var plugin = requirePlugin("WechatSI")
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -13,7 +14,7 @@ function formatTime(date) {
 function loginUser(res){
   var userId = app.globalData.userId
   wx.request({
-    url: 'http://172.20.10.6:5000/admin',
+    url: app.globalData.ip + 'admin',
     data: {'userid':userId},
     method: "POST",
     header: {
@@ -46,110 +47,125 @@ function loadMessage(){
     //         }
     //     })
     app.globalData.preLoadMsg =[
-        {"me":false, "text":"hello!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
-        {"me":true, "text":"nice to meet to you!\nnice to meet to you!nice to meet to you!nice to meet to you!"},
+        {"me":false, "text":"你好！我是影视机器人小福，欢迎随时向我提问~"},
     ];
 }
 function sendMessage(msg, obj){
-    // wx.request({
-    //         url: app.globalData.ip+'/getMoments.php',
-    //         data: {'msg':msg, 'userid':app.globalData.userInfo.userId, 'username':app.globalData.userInfo.userName},
-    //         method: "POST",
-    //         header: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         success: function(res) {
-    //          obj.setData({
-    //             messages:obj.data.messages.concat([{"me":false,"text":res.data}]),
-    //             toView: "msg-" + obj.data.messages.length,
-    //          });
-    //         },
-    //         fail:function(err){
-    //             console.log(err);
-    //         }
-    //     })
-    var reply = "I dont't know,sb"
-    obj.setData({
-      messages:obj.data.messages.concat([{"me":false,"text":reply}]),
-      toView: "msg-" + obj.data.messages.length,
-    });
+  wx.request({
+    url: app.globalData.ip+'send_msg',
+    data: {'message':msg, 'userid':app.globalData.userId},
+    method: "POST",
+    header: {
+        'Content-Type': 'application/json'
+    },
+    success: function(res) {
+      console.log(res)
+      var reply = res.data.reply
+      if(reply == null || reply.trim().length == 0){
+        reply = "抱歉，数据库中缺少该部分信息，请向管理员留言"
+      }
+      plugin.textToSpeech({
+        lang: "zh_CN",
+        tts: true,
+        content: reply,
+        success: function(res) {
+            console.log("succ tts", res.filename)   
+            obj.setData({
+              messages:obj.data.messages.concat([{"me":false,"text":reply,"tss":res.filename}]),
+              toView: "msg-" + obj.data.messages.length,
+            });
+        },
+        fail: function(res) {
+            console.log("fail tts", res)
+            obj.setData({
+              messages:obj.data.messages.concat([{"me":false,"text":reply}]),
+              toView: "msg-" + obj.data.messages.length,
+            });
+        }
+      })
+    },
+    fail:function(err){
+        console.log(err);
+    }
+  }) 
 }
 function loadComments(obj){
-    // wx.request({
-    //         url: app.globalData.ip+'/getMoments.php',
-    //         data: {},
-    //         method: "POST",
-    //         header: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         success: function(res) {  
-    //          obj.setData({
-    //             comments:[{"comment_id":1, "username":"wanfu", "content":"nice", "time":"20200202 11:11:11", "checked":true, "view_count":10, "agree_count":15, "reply":"nmd", "opacity":1, "anim":null}],
-    //             isLoading:false
-    //          });
-    //         },
-    //         fail:function(err){
-    //             console.log(err);
-    //         }
-    //     })
-
-  obj.setData({
-    comments:[{"username":"wanfu", "content":"nice", "time":"2020/02/02 11:11:11", "checked":true, "reply":"nmd", "reply_time":"2020/02/02 11:12:10", "z_index_front":2, "anim":null}],
-    isLoading:false
-  })
+    wx.request({
+            url: app.globalData.ip+'load_comment',
+            data: {},
+            method: "POST",
+            header: {
+                'Content-Type': 'application/json'
+            },
+            success: function(res) {  
+              console.log(res)
+              var comments = res.data.list
+              if(comments == null){
+                comments = []
+              }
+              for(var i = 0; i < comments.length; i++) {
+                comments[i]['z_index_front'] = 2;
+                comments[i]['anim'] = null;
+              }
+              obj.setData({
+                comments:comments,
+                isLoading:false
+              })
+            },
+            fail:function(err){
+                console.log(err);
+            }
+        })
 }
 function sendComment(comment){
-      // wx.request({
-    //         url: app.globalData.ip+'/getMoments.php',
-    //         data: {'comment':comment},
-    //         method: "POST",
-    //         header: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         success: function(res) {
-    //         },
-    //         fail:function(err){
-    //             console.log(err);
-    //         }
-    //     })
-  console.log(comment)
+  wx.request({
+    url: app.globalData.ip+'comment',
+    data: {'comment':comment},
+    method: "POST",
+    header: {
+        'Content-Type': 'application/json'
+    },
+    success: function(res) {
+      console.log(res)
+    },
+    fail:function(err){
+        console.log(err);
+    }
+})
 }
 function sendReply(single_comment){
-  // wx.request({
-//         url: app.globalData.ip+'/getMoments.php',
-//         data: {'comment':comment},
-//         method: "POST",
-//         header: {
-//             'Content-Type': 'application/json'
-//         },
-//         success: function(res) {
-//         },
-//         fail:function(err){
-//             console.log(err);
-//         }
-//     })
-console.log(reply)
+  wx.request({
+        url: app.globalData.ip+'reply',
+        data: {'reply':single_comment},
+        method: "POST",
+        header: {
+            'Content-Type': 'application/json'
+        },
+        success: function(res) {
+          console.log(res)
+        },
+        fail:function(err){
+            console.log(err);
+        }
+    })
+  console.log(single_comment)
 }
 function addMovie(movie_info){
-    //  wx.request({
-    //         url: app.globalData.ip+'/getMoments.php',
-    //         data: {'movieinfo':movie_info},
-    //         method: "POST",
-    //         header: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         success: function(res) {
-    //         },
-    //         fail:function(err){
-    //             console.log(err);
-    //         }
-    //     })
+  console.log(movie_info)
+     wx.request({
+            url: app.globalData.ip+'add_movie',
+            data: {'movie_info':movie_info},
+            method: "POST",
+            header: {
+                'Content-Type': 'application/json'
+            },
+            success: function(res) {
+              console.log(res)
+            },
+            fail:function(err){
+                console.log(err);
+            }
+        })
 }
 
 function formatNumber(n) {
@@ -163,5 +179,7 @@ module.exports = {
   sendMessage: sendMessage,
   loadComments: loadComments,
   sendComment: sendComment,
-  loginUser: loginUser
+  loginUser: loginUser,
+  sendReply: sendReply,
+  addMovie: addMovie,
 }

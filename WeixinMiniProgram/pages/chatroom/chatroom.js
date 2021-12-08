@@ -1,5 +1,6 @@
 var app = getApp()
 var util = require('../../utils/util.js')
+
 Page({
   data:{
     userCode: null,
@@ -42,4 +43,15 @@ Page({
     });
     util.sendMessage(msg, this);
   },
+
+  playTSS(e) {
+    var currentTargetIndex = e.currentTarget.dataset.index
+    var tss = this.data.messages[currentTargetIndex].tss
+    console.log("tss:" + tss)
+    var player = wx.createInnerAudioContext()
+    player.src = tss
+    player.autoplay = true
+    var message = `messages[${currentTargetIndex}].tss`
+    this.setData({[message]:null})
+  }
 })

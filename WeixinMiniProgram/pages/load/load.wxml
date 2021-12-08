@@ -1,9 +1,14 @@
 <view wx:if="{{show_skip_button}}" class="count_botton fade_in" bindtap="switchTab" >
     跳过{{count}}s
 </view>
-<view wx:if="{{show_login_button}}">
+<view wx:elif="{{show_login_button}}">
         <button class='login_botton' type='primary' lang="zh_CN" catchtap="bindGetUserInfo">
             授权登录
+        </button>
+</view>
+<view wx:elif="{{show_load_button}}">
+        <button class='load_botton' type='primary' lang="zh_CN" catchtap="loadToApplet">
+            重新加载
         </button>
 </view>
 <!-- <view class="login_window" wx:if="{{shouldLogin}}" >

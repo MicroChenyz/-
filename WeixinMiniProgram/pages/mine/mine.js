@@ -1,9 +1,12 @@
+const util = require("../../utils/util")
+
 var app = getApp()
 Page({
     data: {
         userInfo:{},
         backdoor:false,
         movie_info:{
+            movie_contributor:"",
             movie_name:"",
             movie_intro:"",
             movie_actors:"",
@@ -76,9 +79,20 @@ Page({
     },
     formSubmit(e) {
         var movie_info = this.data.movie_info
+        movie_info['movie_contributor'] = app.globalData.userInfo.userName
         if(this.check_pass(movie_info)){
-
+            util.addMovie(movie_info)
         }
+        this.setData({
+            movie_info:{
+                movie_contributor:"",
+                movie_name:"",
+                movie_intro:"",
+                movie_actors:"",
+                movie_type:null,
+                movie_date:null,
+            }
+        })
     },
     inputMovieName(e){
         this.setData({

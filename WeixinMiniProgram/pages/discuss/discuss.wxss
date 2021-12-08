@@ -178,7 +178,7 @@
   }
   .main_bottom {
     padding: 20rpx;
-    height: 50rpx;
+    height: 45rpx;
     display: flex;
     flex-direction: row;
     justify-content:center;
@@ -282,5 +282,5 @@
   border-bottom-right-radius: 10px;
 }
 .tip_text{
-  height: 100%; width: 100%; text-align: center;
+  text-align: center;
 }

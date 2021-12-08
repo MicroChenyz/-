@@ -1,6 +1,6 @@
 <view style="background-color: burlywood;height: 100%;">
-    <scroll-view scroll-y="true" scroll-into-view="{{toView}}" bindtap="tapscroll" style="background-color: burlywood;padding-bottom: 20%;height: 1200rpx;">
-        <view wx:for="{{messages}}" wx:for-item="i" id='msg-{{index}}'>
+    <scroll-view scroll-y="true" scroll-into-view="{{toView}}" style="background-color: burlywood;padding-bottom: 20%;height: 1200rpx;">
+        <view wx:for="{{messages}}" wx:for-item="i" id='msg-{{messageIndex}}' wx:for-index="messageIndex">
             <view class="padding clearfix" wx:if="{{i.me}}">
                 <open-data type="userAvatarUrl" class="right-Avatar padding_half"></open-data>
                 <view class="right-Triangle"></view>
@@ -11,7 +11,7 @@
             <view class="padding clearfix " wx:if="{{!i.me}}">
                 <image class="left-Avatar padding_half" src="../../image/robot.png"></image>
                 <view class="left-Triangle"></view>
-                <view class="left-message padding_half">
+                <view class="left-message padding_half {{i.tss?'tss_sign':''}}" bindtap="playTSS" data-index="{{messageIndex}}">
                     <text style="padding:0;margin:0;width:auto;">{{i.text}}</text>
                 </view>
             </view>

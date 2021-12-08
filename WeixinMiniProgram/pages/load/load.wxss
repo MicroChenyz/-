@@ -94,6 +94,20 @@ page {
       align-items: center;
   }
 
+  .load_botton {
+      position: relative;
+      margin-bottom: 6vh;
+      width: 300rpx;
+      height: 100rpx;
+      font-weight: bold;
+      font-size: 32rpx;
+      letter-spacing: 4rpx;
+      border-radius: 50rpx;
+      /*flex布局、横向纵向居中*/
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
 /*定义动画，名称为fadeIn*/
 
 @keyframes fadeIn {

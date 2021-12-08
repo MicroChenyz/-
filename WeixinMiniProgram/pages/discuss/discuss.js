@@ -132,7 +132,7 @@ Page({
     var time = util.formatTime(new Date());
     // 将留言发送给服务端
     var origin_comments = this.data.comments
-    var new_comment = {"userid":app.globalData.userInfo.userId, "username":app.globalData.userInfo.userName, "content":comment_text, "time":time, "checked":false, "reply":null}
+    var new_comment = {"username":app.globalData.userInfo.userName, "content":comment_text, "time":time, "checked":false, "reply":null,"reply_time":null}
     util.sendComment(new_comment);
 
     // 将留言添加到页面
@@ -203,7 +203,7 @@ Page({
       }
       return true;
     },
-    popupReplyWindow(){
+    popupReplyWindow(e){
       if (!this.data.toReply && !this.data.option) {
         this.setData({
           toReply: true,
@@ -220,7 +220,15 @@ Page({
       var reply_time_to_comment = `comments[${reply_index}].reply_time`
       console.log(this.data.comments[reply_index].reply)
       this.setData({[checked_to_comment]: true, [reply_to_comment]:this.data.reply_text, [reply_time_to_comment]:time});
-      util.sendReply()
+
+      var target_comment = this.data.comments[reply_index]
+      var reply_to_server = {
+        "username":target_comment.username, 
+        "time":target_comment.time, 
+        "reply":target_comment.reply, 
+        "reply_time":target_comment.reply_time, 
+      }
+      util.sendReply(reply_to_server)
       this.cancelReply()
     },
     cancelReply(){
@@ -232,6 +240,7 @@ Page({
         setTimeout(() => {
           this.setData({
             toReply: false,
+            reply_text:""
           })
         }, 500)
       } 
