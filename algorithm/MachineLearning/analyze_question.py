@@ -1,16 +1,32 @@
 import json
+
+import jieba
+import re
 import joblib
 import numpy as np
 import jieba.posseg as pseg
 
 
-class AnalysisQuestion():
+class AnalysisQuestion:
     def __init__(self):
         self.vocab_path = './MachineLearning/model/vocabulary.json'
         self.model_path = './MachineLearning/model/clf.model'
         self.question_classification_path = './MachineLearning/model/question_classification.json'
         self.vocab = self.load_vocab()
         self.question_class = self.load_question_classification()
+        jieba.load_userdict("./MachineLearning/participle_dict/actor_.txt")
+        jieba.load_userdict("./MachineLearning/participle_dict/genreDict_.txt")
+        jieba.load_userdict("./MachineLearning/participle_dict/scoreDict_.txt")
+        with open("./MachineLearning/participle_dict/movieDict.txt", "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            for line in lines:
+                movie = line.strip()
+                jieba.add_word(movie, 1, 'nm')
+        pseg.re_han_internal = re.compile('(.+)', re.U)
+
+
+
+
 
     def load_vocab(self):
         with open(self.vocab_path, "r", encoding='UTF-8') as f:
@@ -30,6 +46,7 @@ class AnalysisQuestion():
         """
         self.abstractMap = {}
         list_word = pseg.lcut(question)  # 中文分词
+        print(list_word)
         abstractQuery = ''
         nr_count = 0
         for item in list_word:
@@ -46,6 +63,9 @@ class AnalysisQuestion():
                 abstractQuery += "nnr "
                 self.abstractMap['nnr'] = word
                 nr_count += 1
+            elif 'ng' in pos:
+                abstractQuery += "ng "
+                self.abstractMap['ng'] = word
             elif 'x' in pos:
                 abstractQuery += "x "
                 self.abstractMap['x'] = word
