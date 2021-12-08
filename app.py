@@ -1,7 +1,10 @@
+# coding=UTF-8
 import json
 import requests
 from flask import Flask, request, json
 import database
+import  algorithm
+from algorithm.algorithm import get_answer
 
 app = Flask(__name__)
 db = database.Database()
@@ -95,5 +98,15 @@ def user_login():
     return json.dumps({"openid": openid})
 
 
+@app.route('/send_msg', methods=['GET', 'POST'])
+def send_msg():
+    data = json.loads(request.get_data().decode('utf-8'))
+    msg = data['message']
+    userID = data['userid']
+    reply = get_answer(str(msg))
+    return json.dumps({"reply": reply})
+
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=7473)
