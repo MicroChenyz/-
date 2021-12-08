@@ -8,7 +8,7 @@ class Database:
         # self.cursor.execute("create database MOVIE_SYS;")
         # self.cursor.execute("use database MOVIE_SYS;")
         # 连接数据库
-        self.db = pymysql.connect(host="localhost", user="root", password="19991210", database="movie_robot",
+        self.db = pymysql.connect(host="localhost", user="root", password="12345678", database="movie_robot",
                                   charset='utf8mb4')
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
@@ -38,7 +38,7 @@ class Database:
 
     # 用户表的格式尚不确定
     def insert_user_data(self, username, admin_flag):
-        insert_sql = "insert into user (USERNAME,ADMIN_Or_not,Openid) values('%s',%s)" % (username, admin_flag)
+        insert_sql = "insert into USER (USERNAME,ADMIN_Or_not,Openid) values('%s',%s)" % (username, admin_flag)
         try:
             self.cursor.execute(insert_sql)
             self.db.commit()
@@ -51,7 +51,7 @@ class Database:
             print("failed", e)
 
     def insert_movie_data(self, username, movie_intro, on_time, main_actors, movie_type, movie_name):
-        insert_sql1 = "insert into movie (USERNAME,movie_intro,on_time,main_actors,movie_type,movie_name)"
+        insert_sql1 = "insert into MOVIE(USERNAME,movie_intro,on_time,main_actors,movie_type,movie_name)"
         insert_sql2 = "values('%s', '%s', '%s','%s','%s','%s')" \
                       % (username, movie_intro, on_time, main_actors, movie_type, movie_name)
         insert_sql = insert_sql1 + insert_sql2
@@ -70,7 +70,7 @@ class Database:
             print("failed", e)
 
     def insert_comment_data(self, username, content, time, reply, checked, reply_time):
-        insert_sql = "insert into comment(USERNAME,Content,time,reply,checked,reply_time) values('%s','%s','%s','%s'," \
+        insert_sql = "insert into Comment(USERNAME,Content,time,reply,checked,reply_time) values('%s','%s','%s','%s'," \
                      "'%s','%s')" \
                      % (username, content, time, reply, checked, reply_time)
         try:
@@ -89,7 +89,7 @@ class Database:
             print("failed", e)
 
     def update_comment_data(self, username, time, reply, checked, reply_time):
-        update_sql = "update comment set reply = '%s', checked='%s', reply_time = '%s' where username='%s' and " \
+        update_sql = "update Comment set reply = '%s', checked='%s', reply_time = '%s' where username='%s' and " \
                      "time='%s'" % (
                          reply, checked, reply_time, username, time)
         try:
@@ -127,7 +127,7 @@ class Database:
         if res:
             return res
         else:
-            sel_sql = "select ADMIN_Or_not from User where username='%s'" % username
+            sel_sql = "select ADMIN_Or_not from USER where username='%s'" % username
             try:
                 self.cursor.execute(sel_sql)
                 userinfo = self.cursor.fetchone()  # 每一个用户只对应一条数据，因此可以使用fetchone
@@ -139,7 +139,7 @@ class Database:
                 print("failed", e)
 
     def select_comment(self):
-        sel_sql = "select * from comment"
+        sel_sql = "select * from Comment"
         try:
             list_comment1 = []
             self.cursor.execute(sel_sql)
