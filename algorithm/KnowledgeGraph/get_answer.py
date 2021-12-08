@@ -52,5 +52,9 @@ class Get_answer():
 
 if __name__ == "__main__":
     ga = Get_answer()
-    answers = ga.get_data(1, ['卧虎藏龙'])
-    print(len(answers))
+    answers = ga.get_data(3, ['卧虎藏龙'])
+    result = ""
+    for ans in answers:
+        result += str(ans[0])
+        result += "\n"
+    print(result)
